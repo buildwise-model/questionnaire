@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بيلد وايز | BUILD WISE</title>
+    <style>
+        :root { 
+            --gold: #c2996f; 
+            --dark: #000000; 
+            --bg: #fdfaf5; 
+            --red: #e74c3c; 
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --success: #27ae60;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background-color: var(--bg); 
+            color: #333; 
+            text-align: right;
+            direction: rtl;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hero { 
+            background: var(--white);
+            color: var(--dark); 
+            padding: 60px 20px; 
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo-svg { width: 150px; margin-bottom: 10px; }
+
+        .survey-container { 
+            max-width: 500px; 
+            margin: -35px auto 50px; 
+            padding: 0 20px; 
+        }
+
+        .card { 
+            background: var(--white); 
+            border-radius: 24px; 
+            padding: 25px; 
+            margin-bottom: 25px; 
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .field { margin-bottom: 20px; text-align: right; }
+        
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            font-size: 0.9rem; 
+            color: #444; 
+            width: 100%;
+            text-align: right;
+        }
+        
+        .required-star { color: var(--red); margin-right: 2px; }
+
+        input, select { 
+            width: 100%; padding: 14px 16px; border: 1.5px solid #eee; 
+            border-radius: 14px; box-sizing: border-box; background: #fcfcfc; 
+            font-size: 1rem; text-align: right; transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--gold); outline: none; background: #fff; box-shadow: 0 0 0 4px rgba(194, 153, 111, 0.1); }
+
+        .submit-btn { 
+            width: 100%; background: #1a1a1a; color: var(--gold); 
+            padding: 20px; border: none; border-radius: 18px; 
+            font-size: 1.15rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        #success-screen {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .success-icon {
+            width: 80px; height: 80px; background: var(--success);
+            color: white; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 40px;
+            margin: 0 auto 25px; box-shadow: 0 10px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .success-title { font-size: 1.5rem; font-weight: bold; color: var(--dark); margin-bottom: 15px; }
+        .success-msg { color: #666; font-size: 1.05rem; line-height: 1.7; margin: 0; }
+
+        #loading-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(255,255,255,0.95); z-index: 9999; flex-direction: column; 
+            justify-content: center; align-items: center; backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--gold); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay">
+        <div class="loader"></div>
+        <div style="font-weight: bold;">جاري الإرسال...</div>
+    </div>
+
+    <section class="hero">
+        <svg class="logo-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+            <path d="M80 30 H120 C145 30 145 60 120 60 H80 V30 Z" fill="#c2996f"/>
+            <path d="M80 70 H120 C145 70 145 105 120 105 H80 V70 Z" fill="#c2996f"/>
+            <rect x="160" y="30" width="40" height="75" rx="20" fill="#c2996f"/>
+            <rect x="220" y="55" width="40" height="50" rx="20" fill="#c2996f"/>
+            <rect x="280" y="30" width="40" height="75" rx="20" fill="#c2996f"/>
+            <text x="200" y="160" text-anchor="middle" font-family="Arial" font-weight="900" font-size="48" fill="#000000">BUILD WISE</text>
+        </svg>
+        <p>تحويل التدفقات النقدية إلى أصول عقارية</p>
+    </section>
+
+    <div class="survey-container">
+        <form id="buildWiseForm">
+            <div class="card">
+                <h3>🏢 معلومات المنشأة</h3>
+                <div class="field"><label>اسم الشركة <span class="required-star">*</span></label><input type="text" name="company_name" required></div>
+                <div class="field"><label>رقم السجل التجاري <span class="required-star">*</span></label><input type="text" name="cr_number" required></div>
+                <div class="field">
+                    <label>الكيان القانوني <span class="required-star">*</span></label>
+                    <select name="legal_entity" required>
+                        <option value="" disabled selected>اختر الكيان...</option>
+                        <option value="مؤسسة فردية">مؤسسة فردية</option>
+                        <option value="شركة ذات مسئولية محدودة">شركة ذات مسئولية محدودة</option>
+                        <option value="شركة مساهمة">شركة مساهمة</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                <div class="field"><label>عدد الفروع <span class="required-star">*</span></label><input type="number" name="branches_count" required></div>
+            </div>
+
+            <div class="card">
+                <h3>📞 بيانات التواصل</h3>
+                <div class="field"><label>اسم مسؤول التواصل <span class="required-star">*</span></label><input type="text" name="contact_person" required></div>
+                <div class="field"><label>رقم الجوال <span class="required-star">*</span></label><input type="tel" name="mobile" placeholder="05xxxxxxxx" required></div>
+                <div class="field"><label>البريد الإلكتروني</label><input type="email" name="email" placeholder="example@mail.com"></div>
+            </div>
+
+            <div class="card">
+                <h3>💰 البيانات المالية والعقارية</h3>
+                <div class="field"><label>متوسط المبيعات شهرياً <span class="required-star">*</span></label><input type="number" name="monthly_sales" required></div>
+                <div class="field">
+                    <label>نوع العقار المطلوب <span class="required-star">*</span></label>
+                    <select name="property_type" required>
+                        <option value="" disabled selected>اختر النوع...</option>
+                        <option value="تجاري">تجاري</option>
+                        <option value="سكني">سكني</option>
+                        <option value="إداري / مكاتب">إداري / مكاتب</option>
+                        <option value="أرض">أرض</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                <div class="field"><label>المنطقة</label><input type="text" name="region_text" placeholder="مثال: الرياض"></div>
+                <div class="field"><label>المدينة / الحي</label><input type="text" name="district_text" placeholder="مثال: النرجس"></div>
+            </div>
+
+            <div class="card">
+                <h3>📎 المرفقات</h3>
+                <div class="field"><label>نسخة السجل التجاري</label><input type="file" id="f1" accept=".pdf,image/*"></div>
+                <div class="field"><label>بيان التدفقات النقدية (آخر 6 أشهر)</label><input type="file" id="f2" accept=".pdf,image/*"></div>
+            </div>
+
+            <button type="button" onclick="sendData()" id="btnSubmit" class="submit-btn">إرسال الطلب الآن</button>
+        </form>
+
+        <div id="success-screen" class="card">
+            <div class="success-icon">✓</div>
+            <div class="success-title">تم إرسال بياناتكم بنجاح!</div>
+            <p class="success-msg">شكراً لثقتكم ببيلد وايز. سيقوم فريقنا بمراجعة طلبكم والتواصل معكم في أقرب وقت ممكن.</p>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMw_ZR2Fng_cnt2QEb4crpxQwO1gS7iZkygikCPdB4Pkx8JiQEZ4GOWOwg33keUNnT/exec";
+
+        async function sendData() {
+            const btn = document.getElementById('btnSubmit');
+            const overlay = document.getElementById('loading-overlay');
+            const form = document.getElementById('buildWiseForm');
+            const successScreen = document.getElementById('success-screen');
+
+            if(!form.checkValidity()) {
+                alert("يرجى إكمال الحقول المطلوبة والمميزة بنجمة حمراء.");
+                return;
+            }
+
+            btn.disabled = true;
+            overlay.style.display = 'flex';
+
+            const payload = {};
+            new FormData(form).forEach((v, k) => payload[k] = v);
+
+            const to64 = f => new Promise(res => {
+                if(!f) return res("");
+                const r = new FileReader();
+                r.onload = () => res(r.result);
+                r.readAsDataURL(f);
+            });
+
+            try {
+                payload.cr_file = await to64(document.getElementById('f1').files[0]);
+                payload.bank_statement = await to64(document.getElementById('f2').files[0]);
+
+                fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload),
+                    mode: "no-cors"
+                }).then(() => {
+                    overlay.style.display = 'none';
+                    form.style.display = 'none';
+                    successScreen.style.display = 'block';
+                }).catch(e => {
+                    overlay.style.display = 'none';
+                    alert("خطأ في الاتصال.");
+                    btn.disabled = false;
+                });
+            } catch (err) {
+                overlay.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
